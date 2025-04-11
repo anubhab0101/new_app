@@ -27,13 +27,14 @@ def main():
         y_pred = model.predict(X)
 
         st.write("### Visualization of Linear Regression")
-        fig, _ = plt.subplots(figsize=(10, 6))
-        sns.scatterplot(x=X.flatten(), y=y, alpha=0.5)
-        plt.plot(X, y_pred, color='red', linewidth=2)
-        plt.xlabel('Total Rooms')
-        plt.ylabel('Median House Value')
-        plt.title('Linear Regression: House Value vs Total Rooms')
-        st.pyplot(fig)
+        if st.button("Show Graph"):
+            fig, _ = plt.subplots(figsize=(10, 6))
+            sns.scatterplot(x=X.flatten(), y=y, alpha=0.5)
+            plt.plot(X, y_pred, color='red', linewidth=2)
+            plt.xlabel('Total Rooms')
+            plt.ylabel('Median House Value')
+            plt.title('Linear Regression: House Value vs Total Rooms')
+            st.pyplot(fig)
 
         mae = mean_absolute_error(y, y_pred)
         rmse = np.sqrt(mean_squared_error(y, y_pred))
