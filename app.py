@@ -7,34 +7,26 @@ import seaborn as sns
 
 import matplotlib.pyplot as plt
 
-# Set page title
 st.title('Housing Price Prediction with Linear Regression')
 
-# Load data
 @st.cache_data
 def load_data():
     return pd.read_csv('housing.csv')
 
-# Main function
 def main():
     try:
-        # Load the data
         df = load_data()
         st.write("### Data Overview")
         st.write(df.head())
 
-        # Feature selection
         X = df['total_rooms'].values.reshape(-1, 1)
         y = df['median_house_value'].values
 
-        # Train the model
         model = LinearRegression()
         model.fit(X, y)
 
-        # Make predictions
         y_pred = model.predict(X)
 
-        # Create visualization
         st.write("### Visualization of Linear Regression")
         fig, _ = plt.subplots(figsize=(10, 6))
         sns.scatterplot(x=X.flatten(), y=y, alpha=0.5)
@@ -44,12 +36,10 @@ def main():
         plt.title('Linear Regression: House Value vs Total Rooms')
         st.pyplot(fig)
 
-        # Calculate metrics
         mae = mean_absolute_error(y, y_pred)
         rmse = np.sqrt(mean_squared_error(y, y_pred))
         r2 = r2_score(y, y_pred)
 
-        # Display metrics
         st.write("### Model Performance Metrics")
         col1, col2, col3 = st.columns(3)
         
@@ -60,7 +50,6 @@ def main():
         with col3:
             st.metric("R² Score", f"{r2:.3f}")
 
-        # Model interpretation
         st.write("### Model Interpretation")
         if r2 < 0.3:
             st.write("Based on the R² score, total_rooms appears to be a weak predictor of median_house_value.")
@@ -69,7 +58,6 @@ def main():
         else:
             st.write("Based on the R² score, total_rooms appears to be a strong predictor of median_house_value.")
 
-        # Display regression equation
         st.write("### Regression Equation")
         st.write(f"median_house_value = {model.intercept_:.2f} + {model.coef_[0]:.2f} × total_rooms")
 
