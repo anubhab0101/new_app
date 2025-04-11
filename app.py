@@ -91,3 +91,14 @@ def main():
 
 if __name__ == "__main__":
     main()
+    st.write("### Predict Median House Value")
+    if st.button("Predict Median House Value"):
+        if total_rooms_input > 0:
+            predicted_value = model.predict([[total_rooms_input]])[0]
+            st.write(f"Predicted Median House Value: ${predicted_value:,.2f}")
+
+    st.write("### Predict Using Regression Equation")
+    if st.button("Predict Using Regression Equation"):
+        if regression_slider > 0:
+            regression_predicted_value = model.intercept_ + model.coef_[0] * regression_slider
+            st.write(f"Predicted Median House Value (Regression Equation): ${regression_predicted_value:,.2f}")
