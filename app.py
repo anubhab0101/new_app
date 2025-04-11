@@ -61,11 +61,29 @@ def main():
         st.write(f"median_house_value = {model.intercept_:.2f} + {model.coef_[0]:.2f} × total_rooms")
 
         st.write("### Predict Median House Value")
-        total_rooms_input = st.number_input("Enter the number of total rooms:", min_value=0, value=1000, step=1)
+        total_rooms_input = st.slider(
+            "Select the number of total rooms:",
+            min_value=0,
+            max_value=int(df['total_rooms'].max()),
+            value=1000,
+            step=1
+        )
         if total_rooms_input > 0:
             predicted_value = model.predict([[total_rooms_input]])[0]
             st.write(f"Predicted Median House Value: ${predicted_value:,.2f}")
 
+        st.write("### Predict Using Regression Equation")
+        regression_slider = st.slider(
+            "Select the number of total rooms for regression equation:",
+            min_value=0,
+            max_value=int(df['total_rooms'].max()),
+            value=1000,
+            step=1
+        )
+        if regression_slider > 0:
+            regression_predicted_value = model.intercept_ + model.coef_[0] * regression_slider
+            st.write(f"Predicted Median House Value (Regression Equation): ${regression_predicted_value:,.2f}")
+    
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
         st.write("Please make sure the 'housing.csv' file is in the same directory as this script.")
