@@ -4,7 +4,6 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import seaborn as sns
-
 import matplotlib.pyplot as plt
 
 st.title('Housing Price Prediction with Linear Regression')
@@ -60,6 +59,12 @@ def main():
 
         st.write("### Regression Equation")
         st.write(f"median_house_value = {model.intercept_:.2f} + {model.coef_[0]:.2f} × total_rooms")
+
+        st.write("### Predict Median House Value")
+        total_rooms_input = st.number_input("Enter the number of total rooms:", min_value=0, value=1000, step=1)
+        if total_rooms_input > 0:
+            predicted_value = model.predict([[total_rooms_input]])[0]
+            st.write(f"Predicted Median House Value: ${predicted_value:,.2f}")
 
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
